@@ -33,8 +33,7 @@ if st.button("Predict CSAT Score"):
                             customer_rating,
                             feature5,
                             feature6,
-                            feature7
-                            ]])
+                            feature7]])
 
     prediction = model.predict(input_data)
 
