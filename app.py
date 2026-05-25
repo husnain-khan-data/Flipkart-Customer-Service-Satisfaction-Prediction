@@ -1,54 +1,39 @@
 import streamlit as st
 import joblib
 import pandas as pd
-import math
+import numpy as np
 
-# Load Model
-model = joblib.load('small_rf_model.pkl')
+# Load trained model
+model = joblib.load("small_rf_model.pkl")
 
-# Title
+# App Title
 st.title("Flipkart Customer Satisfaction Prediction")
 
 st.write("Enter customer details to predict CSAT Score")
 
-# -----------------------------
-# Channel Name Mapping
-# -----------------------------
+# -------------------------------
+# Input Fields
+# -------------------------------
 
-channel_map = {
-    "Chat": 0,
-    "Email": 1,
-    "Call": 2
-}
-
-channel_selected = st.selectbox(
+channel_name = st.selectbox(
     "Channel Name",
-    list(channel_map.keys())
+    [0, 1, 2],
+    format_func=lambda x: {
+        0: "Chat",
+        1: "Call",
+        2: "Email"
+    }[x]
 )
 
-channel_name = channel_map[channel_selected]
-
-# -----------------------------
-# Category Mapping
-# -----------------------------
-
-category_map = {
-    "Electronics": 0,
-    "Fashion": 1,
-    "Grocery": 2,
-    "Mobile": 3
-}
-
-category_selected = st.selectbox(
+category = st.selectbox(
     "Category",
-    list(category_map.keys())
+    [0, 1, 2],
+    format_func=lambda x: {
+        0: "Delivery",
+        1: "Payment",
+        2: "Product Quality"
+    }[x]
 )
-
-category = category_map[category_selected]
-
-# -----------------------------
-# Numeric Inputs
-# -----------------------------
 
 item_price = st.number_input(
     "Item Price",
@@ -62,38 +47,28 @@ connected_handling_time = st.number_input(
     value=5.0
 )
 
-# -----------------------------
-# Agent Shift Mapping
-# -----------------------------
-
-shift_map = {
-    "Morning": 0,
-    "Afternoon": 1,
-    "Night": 2
-}
-
-shift_selected = st.selectbox(
+agent_shift = st.selectbox(
     "Agent Shift",
-    list(shift_map.keys())
+    [0, 1, 2],
+    format_func=lambda x: {
+        0: "Morning",
+        1: "Evening",
+        2: "Night"
+    }[x]
 )
-
-agent_shift = shift_map[shift_selected]
-
-# -----------------------------
-# Response Time
-# -----------------------------
 
 response_time = st.number_input(
     "Response Time",
-    min_value=1.0,
+    min_value=0.0,
     value=10.0
 )
 
-response_time_log = math.log(response_time)
+# Log feature
+response_time_log = np.log1p(response_time)
 
-# -----------------------------
-# Prediction
-# -----------------------------
+# -------------------------------
+# Prediction Button
+# -------------------------------
 
 if st.button("Predict CSAT Score"):
 
@@ -117,18 +92,21 @@ if st.button("Predict CSAT Score"):
 
     prediction = model.predict(input_data)
 
+    # -------------------------------
+    # Professional Output
+    # -------------------------------
 
-if prediction[0] == 1:
-    st.error(f"Predicted CSAT Score: {prediction[0]} - Very Dissatisfied Customer 😡")
+    if prediction[0] == 1:
+        st.error(f"Predicted CSAT Score: {prediction[0]} - Very Dissatisfied Customer 😡")
 
-elif prediction[0] == 2:
-    st.warning(f"Predicted CSAT Score: {prediction[0]} - Dissatisfied Customer 😕")
+    elif prediction[0] == 2:
+        st.warning(f"Predicted CSAT Score: {prediction[0]} - Dissatisfied Customer 😕")
 
-elif prediction[0] == 3:
-    st.info(f"Predicted CSAT Score: {prediction[0]} - Neutral Customer 😐")
+    elif prediction[0] == 3:
+        st.info(f"Predicted CSAT Score: {prediction[0]} - Neutral Customer 😐")
 
-elif prediction[0] == 4:
-    st.success(f"Predicted CSAT Score: {prediction[0]} - Satisfied Customer 🙂")
+    elif prediction[0] == 4:
+        st.success(f"Predicted CSAT Score: {prediction[0]} - Satisfied Customer 🙂")
 
-else:
-    st.success(f"Predicted CSAT Score: {prediction[0]} - Highly Satisfied Customer 😍")
+    else:
+        st.success(f"Predicted CSAT Score: {prediction[0]} - Highly Satisfied Customer 😍")
