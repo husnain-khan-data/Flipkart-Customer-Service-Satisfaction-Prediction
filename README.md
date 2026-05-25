@@ -7,6 +7,11 @@ This project aims to predict customer satisfaction (CSAT Score) for Flipkart cus
 The dataset contains customer support related information, and the goal is to classify customer satisfaction scores ranging from 1 to 5.
 
 ---
+## Live Demo
+
+Click below to use the deployed Streamlit application:
+
+https://flipkart-customer-service-satisfaction-prediction-e7k59zt3scvk.streamlit.app/
 
 ## Business Problem
 Customer satisfaction is one of the most important factors for e-commerce companies like Flipkart. Predicting dissatisfied customers in advance can help businesses:
