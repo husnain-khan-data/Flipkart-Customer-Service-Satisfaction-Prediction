@@ -23,7 +23,6 @@ customer_rating = st.slider("Customer Rating", 1, 5)
 feature5 = 0
 feature6 = 0
 feature7 = 0
-feature8 = 0
 
 # Prediction
 if st.button("Predict CSAT Score"):
@@ -34,8 +33,8 @@ if st.button("Predict CSAT Score"):
                             customer_rating,
                             feature5,
                             feature6,
-                            feature7,
-                            feature8]])
+                            feature7
+                            ]])
 
     prediction = model.predict(input_data)
 
