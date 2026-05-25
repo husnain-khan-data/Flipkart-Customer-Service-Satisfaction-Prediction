@@ -117,4 +117,18 @@ if st.button("Predict CSAT Score"):
 
     prediction = model.predict(input_data)
 
-    st.success(f"Predicted CSAT Score: {prediction[0]}")
+
+if prediction[0] == 1:
+    st.error(f"Predicted CSAT Score: {prediction[0]} - Very Dissatisfied Customer 😡")
+
+elif prediction[0] == 2:
+    st.warning(f"Predicted CSAT Score: {prediction[0]} - Dissatisfied Customer 😕")
+
+elif prediction[0] == 3:
+    st.info(f"Predicted CSAT Score: {prediction[0]} - Neutral Customer 😐")
+
+elif prediction[0] == 4:
+    st.success(f"Predicted CSAT Score: {prediction[0]} - Satisfied Customer 🙂")
+
+else:
+    st.success(f"Predicted CSAT Score: {prediction[0]} - Highly Satisfied Customer 😍")
